@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 
 @Injectable()
 export class Utility {
@@ -31,5 +31,9 @@ export class Utility {
           return false;
         }
         return true;
+    }
+
+    public validateUserObject(user: any) {
+      if(user.isDeleted) throw new UnauthorizedException("Not authorized to perform the action");
     }
 }

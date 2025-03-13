@@ -9,13 +9,15 @@ import { JWT_EXPIRE } from "../../../constants";
 import { UserLoginDto } from "../dtos/user-login.dto";
 import * as bcrypt from 'bcryptjs';
 import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
+import { Utility } from "src/modules/utils/utility";
 
 @Injectable()
 export class UserAuthService {
     constructor(
         private readonly userAuthRepository: UserAuthRepository,
         private readonly jwtService: JwtService,
-        @Inject(CACHE_MANAGER) private cacheManager: Cache
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        private readonly utility: Utility
     ) {}
 
     public async saveNewUser(body: UserSignUpDto): Promise<UserInterface> {
@@ -53,7 +55,10 @@ export class UserAuthService {
     public async loginUser(body: UserLoginDto): Promise<UserInterface> {
         try {
             const user = await this.userAuthRepository.getUserByEmail(body.email);
-            if(!user) throw new BadRequestException("User not found");
+            if (!user) {
+                throw new BadRequestException("User not found");
+            }
+            this.utility.validateUserObject(user);
             const comparePassword = await bcrypt.compare(body.password, user.password);
             if(!comparePassword) throw new BadRequestException("Invalid credentials");
             const accessToken = await this.jwtService.sign({
