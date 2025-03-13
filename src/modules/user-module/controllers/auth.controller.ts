@@ -1,11 +1,13 @@
-import { BadRequestException, Body, Controller, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Post, Req, UseInterceptors } from "@nestjs/common";
 import { UserAuthService } from "../services/user.service";
 import { UserSignUpDto } from "../dtos/user-signup.dto";
 import { UserInterface } from "../interface/user-signup.interface";
 import { Utility } from "src/modules/utils/utility";
 import { Public } from "src/decorators";
 import { UserLoginDto } from "../dtos/user-login.dto";
+import { AppInterceptor } from "src/app.interceptor";
 
+@UseInterceptors(AppInterceptor)
 @Controller("/user/auth")
 export class UserAuthController {
     constructor(
@@ -28,11 +30,25 @@ export class UserAuthController {
 
     @Public()
     @Post('/login')
-    public async userLogin(@Body() body: UserLoginDto): Promise<UserInterface> {
+    public async userLogin(@Body() body: UserLoginDto): Promise<any> {
         if(!this.utility.isValidBodyForLogin(body)) {
             throw new BadRequestException("Invalid Request");
         }
         const res = await this.userAuthService.loginUser(body);
-        return res;
+        return {
+            code: 200,
+            message: "User Logged In",
+            data: res
+        };
     }
+
+    @Post('/logout')
+    public async logoutUser(@Req() req: Request) {
+        const res = await this.userAuthService.handleLogout(req.headers['authorization'].split(' ')[1]);
+        return {
+            code: 200,
+            message: "User Logged Out"
+        }
+    }
+    
 }
