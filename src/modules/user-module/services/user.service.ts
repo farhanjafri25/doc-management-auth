@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { UserAuthRepository } from "../repositories/user.repository";
 import { UserSignUpDto } from "../dtos/user-signup.dto";
 import { UserInterface } from "../interface/user-signup.interface";
@@ -8,12 +8,14 @@ import { JwtService } from "@nestjs/jwt";
 import { JWT_EXPIRE } from "../../../constants";
 import { UserLoginDto } from "../dtos/user-login.dto";
 import * as bcrypt from 'bcryptjs';
+import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
 
 @Injectable()
 export class UserAuthService {
     constructor(
         private readonly userAuthRepository: UserAuthRepository,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        @Inject(CACHE_MANAGER) private cacheManager: Cache
     ) {}
 
     public async saveNewUser(body: UserSignUpDto): Promise<UserInterface> {
@@ -70,5 +72,32 @@ export class UserAuthService {
             console.log(`error in loginUser`, error);
             throw error;
         }
+    }
+
+    public async handleLogout(token: string): Promise<boolean> {
+        try {
+            console.log(`token`, token);
+            const decodedToken = this.jwtService.decode(token) as { exp: number};
+            console.log(`decodedToken`, decodedToken);
+            const ttl = decodedToken.exp - Math.floor(Date.now() / 1000);
+            if(ttl > 0) {
+                const res = await this.cacheManager.set(`blacklist:${token}`, true, ttl * 1000);
+                console.log(`res in setting cache`, res);
+                const ttlVal = await this.cacheManager.ttl(`blacklist:${token}`);
+                console.log(`ttl in setting cache`, ttlVal);
+            }
+            return true;
+        } catch (error) {
+            console.log(`error in handleLogout`, error);
+            throw error;
+        }
+    }
+
+    //revisit logic
+    public async getTTL(token: string) {
+        const res = await this.cacheManager.get(`blacklist:${token}`);
+        console.log(`res`, res);
+        
+        return res;
     }
 }
