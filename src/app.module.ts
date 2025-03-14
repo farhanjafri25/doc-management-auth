@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './guards';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store'
+import { UserManagementModule } from './modules/user-management-module/user-management.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import * as redisStore from 'cache-manager-redis-store'
       port: 6379
     }),
     TypeOrmModule.forRoot(postGresConfig),
-    UserAuthModule
+    UserAuthModule,
+    UserManagementModule
   ],
   controllers: [AppController],
   providers: [AppService,
