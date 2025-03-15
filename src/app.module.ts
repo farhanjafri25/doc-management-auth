@@ -9,6 +9,7 @@ import { AccessTokenGuard } from './guards';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store'
 import { UserManagementModule } from './modules/user-management-module/user-management.module';
+import { DocumentModule } from './modules/doc-module/doc.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { UserManagementModule } from './modules/user-management-module/user-mana
     }),
     TypeOrmModule.forRoot(postGresConfig),
     UserAuthModule,
-    UserManagementModule
+    UserManagementModule,
+    DocumentModule
   ],
   controllers: [AppController],
   providers: [AppService,
