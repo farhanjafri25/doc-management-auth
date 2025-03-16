@@ -16,6 +16,12 @@ dotenv.config({
 });
 
 @Injectable()
+  /**
+   * Constructor that injects the required dependencies for the guard.
+   *
+   * @param {Reflector} reflector - A utility for reflecting metadata from methods or classes.
+   * @param {Cache} cacheManager - Cache manager to handle blacklisting of JWT tokens.
+   */
 export class AccessTokenGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector,
     @Inject(CACHE_MANAGER) private cacheManager: Cache
@@ -23,6 +29,19 @@ export class AccessTokenGuard extends AuthGuard('jwt') {
     super();
   }
 
+    /**
+   * Determines whether the current request can be processed based on the JWT token, 
+   * the presence of a blacklisted token, and user role permissions.
+   * This method extends the behavior of the default `AuthGuard('jwt')` by adding:
+   * - Check for public routes using reflection.
+   * - Verifying whether the JWT token is blacklisted using the cache manager.
+   * - Decoding and verifying the JWT token using the secret key.
+   * - Role-based access control based on metadata attached to the route handler.
+   * 
+   * @param {ExecutionContext} context - The context of the incoming request. Contains the request and response objects.
+   * @returns {Promise<boolean>} - Returns a boolean indicating whether the request can proceed.
+   * @throws {ForbiddenException} - Throws if the token is invalid or if access is denied based on roles.
+   */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride('isPublic', [
       context.getHandler(),
