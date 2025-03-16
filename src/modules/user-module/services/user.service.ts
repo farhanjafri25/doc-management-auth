@@ -10,6 +10,7 @@ import { UserLoginDto } from "../dtos/user-login.dto";
 import * as bcrypt from 'bcryptjs';
 import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Utility } from "src/modules/utils/utility";
+import { INVALID_CREDENTIALS, UNABLE_TO_SAVE_USER_MESSAGE, USER_NOT_FOUND_MESSAGE } from "src/error-messages/error-messages";
 
 @Injectable()
 export class UserAuthService {
@@ -32,7 +33,7 @@ export class UserAuthService {
                 role: body.role
             })
             if(!res) {
-                throw new Error("Unable to save user");
+                throw new Error(UNABLE_TO_SAVE_USER_MESSAGE);
             }
             const jwtPayload = {
                 id: userId,
@@ -56,11 +57,11 @@ export class UserAuthService {
         try {
             const user = await this.userAuthRepository.getUserByEmail(body.email);
             if (!user) {
-                throw new BadRequestException("User not found");
+                throw new BadRequestException(USER_NOT_FOUND_MESSAGE);
             }
             this.utility.validateUserObject(user);
             const comparePassword = await bcrypt.compare(body.password, user.password);
-            if(!comparePassword) throw new BadRequestException("Invalid credentials");
+            if(!comparePassword) throw new BadRequestException(INVALID_CREDENTIALS);
             const accessToken = await this.jwtService.sign({
                 id: user.userId,
                 email: user.email,

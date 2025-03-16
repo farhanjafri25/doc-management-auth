@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { UserManagementRepository } from "../repositories/user-management.repository";
 import { UpdateRolePermissionDto } from "../dtos/update-permission.dto";
+import { CANNOT_DELETE_YOURSELF_ERROR } from "src/error-messages/error-messages";
 
 @Injectable()
 export class UserManagementService {
@@ -10,7 +11,7 @@ export class UserManagementService {
 
     public async softDeleteUser(userId: string, currentUserId: string) {
         if(userId === currentUserId) {
-            throw new BadRequestException('You cannot delete yourself')
+            throw new BadRequestException(CANNOT_DELETE_YOURSELF_ERROR)
         }
         return this.userManagementRepo.softDeleteUser(userId);
     }
