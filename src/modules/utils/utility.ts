@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { UNAUTHORIZED_MESSAGE } from "src/error-messages/error-messages";
 
 @Injectable()
 export class Utility {
@@ -34,6 +35,6 @@ export class Utility {
     }
 
     public validateUserObject(user: any) {
-      if(user.isDeleted) throw new UnauthorizedException("Not authorized to perform the action");
+      if(user.isDeleted) throw new UnauthorizedException(UNAUTHORIZED_MESSAGE);
     }
 }

@@ -1,0 +1,9 @@
+export const UNAUTHORIZED_MESSAGE = "Not authorized to perform the action"
+export const ALL_FILEDS_REQUIRED_MESSAGE = "All Fields are required"
+export const INVALID_USER_BODY_MESSAGE = "Invalid User Body"
+export const UNABLE_TO_SAVE_USER_MESSAGE = "Unable to save user"
+export const USER_NOT_FOUND_MESSAGE = "User not found"  
+export const INVALID_CREDENTIALS = "Invalid credentials"
+export const USER_ID_REQUIRED_VALIDATION_ERROR = 'UserId is required'
+export const CANNOT_DELETE_YOURSELF_ERROR = "You cannot delete yourself"
+export const DOCUMENT_NOT_FOUND_ERROR = "Document not found"

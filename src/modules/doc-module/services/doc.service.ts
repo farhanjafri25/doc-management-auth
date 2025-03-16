@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { DocumentRepository } from "../repositories/doc.repository";
 import { DocumentEntitiy } from "../entities/document.entity";
+import { DOCUMENT_NOT_FOUND_ERROR } from "src/error-messages/error-messages";
 
 @Injectable()
 export class DocumentService {
@@ -17,7 +18,7 @@ export class DocumentService {
     async getDocumentById(id: number): Promise<DocumentEntitiy> {
         const document = await this.documentRepository.fetchDocumentById(id);
         if(!document) {
-            throw new NotFoundException(`Document not found`)
+            throw new NotFoundException(DOCUMENT_NOT_FOUND_ERROR)
         }
         return document;
     }

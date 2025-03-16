@@ -6,6 +6,7 @@ import { Utility } from "src/modules/utils/utility";
 import { Public } from "src/decorators";
 import { UserLoginDto } from "../dtos/user-login.dto";
 import { AppInterceptor } from "src/app.interceptor";
+import { ALL_FILEDS_REQUIRED_MESSAGE, INVALID_USER_BODY_MESSAGE } from "src/error-messages/error-messages";
 
 @UseInterceptors(AppInterceptor)
 @Controller("/user/auth")
@@ -19,10 +20,10 @@ export class UserAuthController {
     @Post('/signup')
     public async userSignUp(@Body() body: UserSignUpDto): Promise<UserInterface> {
         if(!this.utility.validateSignupBody(body)) {
-            throw new BadRequestException("All Fields are required");
+            throw new BadRequestException(ALL_FILEDS_REQUIRED_MESSAGE);
         }
         if(!this.utility.isValidUserBodyForSignUp(body)) {
-            throw new BadRequestException("Invalid User Body");
+            throw new BadRequestException(INVALID_USER_BODY_MESSAGE);
         }
         const res = await this.userAuthService.saveNewUser(body);
         return res;
