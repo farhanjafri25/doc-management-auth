@@ -7,27 +7,27 @@ import { UserAuthModule } from './modules/user-module/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AccessTokenGuard } from './guards';
 import { CacheModule } from '@nestjs/cache-manager';
-import * as redisStore from 'cache-manager-redis-store'
 import { UserManagementModule } from './modules/user-management-module/user-management.module';
 import { DocumentModule } from './modules/doc-module/doc.module';
-import { BullModule } from '@nestjs/bull';
 import { IngestionModule } from './modules/ingestion-module/ingestion-module';
+import { redisStore } from 'cache-manager-redis-store';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
     CacheModule.register({
       stores: redisStore,
-      host: 'localhost',
-      port: 6379
+      host: process.env.REDIS_HOST || 'localhost',
+      port: Number(process.env.REDIS_PORT) || 6379
     }),
     BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379
+      connection: {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: Number(process.env.REDIS_PORT) || 6379
       }
     }),
     BullModule.registerQueue({
-      name: 'ingestionQueue'
+      name: 'ingestionQueue',
     }),
     TypeOrmModule.forRoot(postGresConfig),
     UserAuthModule,

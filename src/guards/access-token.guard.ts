@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { ROLES_KEY } from 'src/decorators';
 import * as jwt from 'jsonwebtoken';
+import { RedisStore } from 'cache-manager-redis-store';
 
 const envPath = path.join(
   process.cwd(),
@@ -24,7 +25,7 @@ dotenv.config({
    */
 export class AccessTokenGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    @Inject(CACHE_MANAGER) private cacheManager: RedisStore
   ) {
     super();
   }
@@ -54,7 +55,7 @@ export class AccessTokenGuard extends AuthGuard('jwt') {
       return (await super.canActivate(context)) as boolean;
     const authToken = authorization.split(' ')[1];
 
-    const isBlackListedToken = await this.cacheManager.get(`blacklist:${authToken}`);
+    const isBlackListedToken = await this.cacheManager.get(`blacklist:${authToken}`,null,null);
     console.log('isBlackListedToken', isBlackListedToken);
     if(isBlackListedToken) {
       return (await this.canActivate(context)) as boolean;
