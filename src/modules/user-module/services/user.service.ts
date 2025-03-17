@@ -11,13 +11,14 @@ import * as bcrypt from 'bcryptjs';
 import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
 import { Utility } from "../../../modules/utils/utility";
 import { INVALID_CREDENTIALS, UNABLE_TO_SAVE_USER_MESSAGE, USER_NOT_FOUND_MESSAGE } from "../../../error-messages/error-messages";
+import { RedisStore } from "cache-manager-redis-store";
 
 @Injectable()
 export class UserAuthService {
     constructor(
         private readonly userAuthRepository: UserAuthRepository,
         private readonly jwtService: JwtService,
-        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        @Inject(CACHE_MANAGER) private cacheManager: RedisStore,
         private readonly utility: Utility
     ) { }
 
@@ -150,9 +151,9 @@ export class UserAuthService {
             console.log(`decodedToken`, decodedToken);
             const ttl = decodedToken.exp - Math.floor(Date.now() / 1000);
             if (ttl > 0) {
-                const res = await this.cacheManager.set(`blacklist:${token}`, true, ttl * 1000);
+                const res = await this.cacheManager.set(`blacklist:${token}`, true, ttl * 1000, undefined);
                 console.log(`res in setting cache`, res);
-                const ttlVal = await this.cacheManager.ttl(`blacklist:${token}`);
+                const ttlVal = await this.cacheManager.ttl(`blacklist:${token}`, undefined);
                 console.log(`ttl in setting cache`, ttlVal);
             }
             return true;
@@ -164,7 +165,7 @@ export class UserAuthService {
 
     //revisit logic
     public async getTTL(token: string) {
-        const res = await this.cacheManager.get(`blacklist:${token}`);
+        const res = await this.cacheManager.get(`blacklist:${token}`, undefined, undefined);
         console.log(`res`, res);
 
         return res;
