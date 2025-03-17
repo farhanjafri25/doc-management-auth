@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { AppInterceptor } from "src/app.interceptor";
+import { AppInterceptor } from "../../../app.interceptor";
 import { DocumentService } from "../services/doc.service";
-import { Roles } from "src/decorators";
+import { Roles } from "../../../decorators";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UploadFileDto } from "../dtos/uploadFile.dto";
 import { DocumentEntitiy } from "../entities/document.entity";

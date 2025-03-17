@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { IngestionStatus } from "../enums/ingestion-status.enum";
-import { BaseEntity } from "src/database/base/base.entity";
+import { BaseEntity } from "../../../database/base/base.entity";
 
 @Entity({name: "ingestion_entity"})
 export class IngestionEntity extends BaseEntity {

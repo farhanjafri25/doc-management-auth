@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
 import { IngestionEntity } from "../entities/ingestion.entity";
-import { DocumentEntitiy } from "src/modules/doc-module/entities/document.entity";
+import { DocumentEntitiy } from "../../../modules/doc-module/entities/document.entity";
 import { IngestionStatus } from "../enums/ingestion-status.enum";
 
 @Injectable()

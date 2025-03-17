@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
-import { UNAUTHORIZED_MESSAGE } from "src/error-messages/error-messages";
+import { UNAUTHORIZED_MESSAGE } from "../../error-messages/error-messages";
 
 @Injectable()
 export class Utility {

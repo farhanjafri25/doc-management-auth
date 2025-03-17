@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsNotEmpty } from "class-validator";
-import { UserRoleEnum } from "src/modules/user-module/enums/roles.enum";
+import { UserRoleEnum } from "../../../modules/user-module/enums/roles.enum";
 import { PermissionEnum } from "../enums/permission.enum";
 
 export class UpdateRolePermissionDto {

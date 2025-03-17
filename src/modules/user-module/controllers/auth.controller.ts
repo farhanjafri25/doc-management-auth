@@ -2,11 +2,11 @@ import { BadRequestException, Body, Controller, Get, Post, Req, UseInterceptors 
 import { UserAuthService } from "../services/user.service";
 import { UserSignUpDto } from "../dtos/user-signup.dto";
 import { UserInterface } from "../interface/user-signup.interface";
-import { Utility } from "src/modules/utils/utility";
-import { Public } from "src/decorators";
+import { Utility } from "../../../modules/utils/utility";
+import { Public } from "../../../decorators";
 import { UserLoginDto } from "../dtos/user-login.dto";
-import { AppInterceptor } from "src/app.interceptor";
-import { ALL_FILEDS_REQUIRED_MESSAGE, INVALID_USER_BODY_MESSAGE } from "src/error-messages/error-messages";
+import { AppInterceptor } from "../../../app.interceptor";
+import { ALL_FILEDS_REQUIRED_MESSAGE, INVALID_USER_BODY_MESSAGE } from "../../../error-messages/error-messages";
 
 @UseInterceptors(AppInterceptor)
 @Controller("/user/auth")

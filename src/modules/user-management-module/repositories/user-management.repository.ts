@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { UserEntity } from "src/modules/user-module/entities/user.entity";
+import { UserEntity } from "../../../modules/user-module/entities/user.entity";
 import { DataSource, Repository } from "typeorm";
 import { UserRolesEntity } from "../entities/user-roles.entity";
 import { UpdateRolePermissionDto } from "../dtos/update-permission.dto";

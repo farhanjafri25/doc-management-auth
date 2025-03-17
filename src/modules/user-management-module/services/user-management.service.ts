@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { UserManagementRepository } from "../repositories/user-management.repository";
 import { UpdateRolePermissionDto } from "../dtos/update-permission.dto";
-import { CANNOT_DELETE_YOURSELF_ERROR } from "src/error-messages/error-messages";
+import { CANNOT_DELETE_YOURSELF_ERROR } from "../../../error-messages/error-messages";
 
 @Injectable()
 export class UserManagementService {

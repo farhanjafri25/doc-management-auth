@@ -9,8 +9,8 @@ import { JWT_EXPIRE } from "../../../constants";
 import { UserLoginDto } from "../dtos/user-login.dto";
 import * as bcrypt from 'bcryptjs';
 import { Cache, CACHE_MANAGER } from "@nestjs/cache-manager";
-import { Utility } from "src/modules/utils/utility";
-import { INVALID_CREDENTIALS, UNABLE_TO_SAVE_USER_MESSAGE, USER_NOT_FOUND_MESSAGE } from "src/error-messages/error-messages";
+import { Utility } from "../../../modules/utils/utility";
+import { INVALID_CREDENTIALS, UNABLE_TO_SAVE_USER_MESSAGE, USER_NOT_FOUND_MESSAGE } from "../../../error-messages/error-messages";
 
 @Injectable()
 export class UserAuthService {

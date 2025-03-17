@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { DocumentStatus } from "../enums/document-status.enum";
-import { BaseEntity } from "src/database/base/base.entity";
+import { BaseEntity } from "../../../database/base/base.entity";
 
 @Entity()
 export class DocumentEntitiy extends BaseEntity {
