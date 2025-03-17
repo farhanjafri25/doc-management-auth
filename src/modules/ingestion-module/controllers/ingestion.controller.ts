@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { IngestionService } from "../services/ingestion.service";
-import { Roles } from "src/decorators";
+import { Roles } from "../../../decorators";
 
 @Controller('/ingestion')
 export class IngestionController {

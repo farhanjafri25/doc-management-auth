@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { DocumentRepository } from "../repositories/doc.repository";
 import { DocumentEntitiy } from "../entities/document.entity";
-import { DOCUMENT_NOT_FOUND_ERROR } from "src/error-messages/error-messages";
+import { DOCUMENT_NOT_FOUND_ERROR } from "../../../error-messages/error-messages";
 
 @Injectable()
 export class DocumentService {

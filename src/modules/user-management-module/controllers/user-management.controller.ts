@@ -1,9 +1,9 @@
 import { BadRequestException, Body, Controller, Post, UseInterceptors } from "@nestjs/common";
-import { GetCurrentUser, Roles } from "src/decorators";
+import { GetCurrentUser, Roles } from "../../../decorators";
 import { UserManagementService } from "../services/user-management.service";
 import { UpdateRolePermissionDto } from "../dtos/update-permission.dto";
-import { AppInterceptor } from "src/app.interceptor";
-import { USER_ID_REQUIRED_VALIDATION_ERROR } from "src/error-messages/error-messages";
+import { AppInterceptor } from "../../../app.interceptor";
+import { USER_ID_REQUIRED_VALIDATION_ERROR } from "../../../error-messages/error-messages";
 
 @UseInterceptors(AppInterceptor)
 @Controller('/user/management')

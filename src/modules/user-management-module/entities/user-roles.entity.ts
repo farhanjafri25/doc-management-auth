@@ -1,4 +1,4 @@
-import { BaseEntity } from "src/database/base/base.entity";
+import { BaseEntity } from "../../../database/base/base.entity";
 import { Column, Entity, Index, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity({name: 'user_roles'})

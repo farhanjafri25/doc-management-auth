@@ -30,7 +30,7 @@ export class UserAuthRepository {
      * });
      * console.log('User saved:', newUser);
      */
-    public async saveNewUser(user: UserSignUpInterface): Promise<UserEntity> {
+    public async saveNewUser(user: UserSignUpInterface): Promise<UserEntity | null> {
         try {
             const userObj = new UserEntity();
             userObj.userId = user.userId;
