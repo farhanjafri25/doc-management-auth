@@ -69,4 +69,10 @@ export class UserManagementController {
     public async updatePermission(@Body() body: UpdateRolePermissionDto) {
         return await this.userManagementService.updateRolesPermission(body);
     }
+
+    @Post('/add-role')
+    @Roles('admin')
+    public async addUserRole(@Body() body: UpdateRolePermissionDto) {
+        return await this.userManagementService.addRoles(body);
+    }
 }

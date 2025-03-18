@@ -93,4 +93,15 @@ export class UserManagementRepository {
             message: "Permissions updated successfully"
         }
     }
+
+    public async addRole(body: UpdateRolePermissionDto): Promise<any> {
+        const createRole = this.rolesRepository.create({
+            roleName: body.role,
+            canRead: body.permissions.includes(PermissionEnum.READ),
+            canWrite: body.permissions.includes(PermissionEnum.WRITE),
+            canDelete: body.permissions.includes(PermissionEnum.DELETE)
+        })
+        const res = await this.rolesRepository.save(createRole);
+        return res;
+    }
 }
