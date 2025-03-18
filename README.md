@@ -1,4 +1,4 @@
-# Document Management Backend with RAG Integration
+# Document Management Backend
 
 [![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
@@ -88,11 +88,11 @@ User-module: The User-module has functionalities regarding user authentication a
 User-management-module: The user management module has functionalities like delete user and update permissions access, the endpoints are protected by admin roles.
 
 Doc-Module: The Doc-module has functionalities regarding uploading doc, fetching all docs, fetch doc by doc id, update and delete. All of the endpoints are protected by roles of user.
-# Note: Upload doc is being made to local files system for the time being, we can store the files in S3 for better scalability and more efficient solution.
+## Note: Upload doc is being made to local files system for the time being, we can store the files in S3 for better scalability and more efficient solution.
 
 Ingestion-Module: The ingesttion-module starts the process of ingesting the file for Python backend, I'm using a queue system for ingestion to make it asynchronous, The Ingestion states are PENDING, PROCESSING, COMPLETED and FAILED, The Ingestion starts with Pending state and calls the python backend via a queueing system, the Python backend will run a async task to update accordingly.
 Get Ingestion by Id to keep track of ingestion so far.
-# Note: I'm using BullMQ module for async processing, We can extend this to using a RabbitMq or similar queue system in microservices architecture to enable more scalability.
+## Note: I'm using BullMQ module for async processing, We can extend this to using a RabbitMq or similar queue system in microservices architecture to enable more scalability.
 
 
 ## Authentication and Authorization
@@ -100,23 +100,23 @@ Get Ingestion by Id to keep track of ingestion so far.
 I am using NestJs Auth Guard for authenticating incoming requests.
 DTO's are used for request validations.
 
-## DB Design
+# DB Design
 
-# User's Entity
+## User's Entity
 increment_id - PK
 user_id - Indexed
 email - Indexed
 password
 role
 
-# Role Entity
+## Role Entity
 role_id - PK
 role_name - Indexed
 can_read
 can_write
 can_delete
 
-# Document Entity
+## Document Entity
 increment_id - PK - Uniquely identify Docs
 title
 description
@@ -124,13 +124,13 @@ file_path
 enum
 created_by - Indexed
 
-# Ingestion Entity
+## Ingestion Entity
 ingestion_id - PK - Uniquely identify ingestions
 document
 document_id
 ingestion_status
 
-# Note: I'm using increment id to identify records only for the scope of this project, for more scalability we can opt for creating unique Id's as increment id's may be reset across partitions in some DB's
+## Note: I'm using increment id to identify records only for the scope of this project, for more scalability we can opt for creating unique Id's as increment id's may be reset across partitions in some DB's
 
 ## Key Points
 
