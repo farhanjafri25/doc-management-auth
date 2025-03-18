@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 import { DocumentStatus } from "../enums/document-status.enum";
 import { BaseEntity } from "../../../database/base/base.entity";
 
@@ -19,6 +19,7 @@ export class DocumentEntitiy extends BaseEntity {
     @Column({type: 'enum', enum: DocumentStatus, default: DocumentStatus.UPLOADED})
     status: DocumentStatus;
     
+    @Index()
     @Column({name: 'created_by', type: 'text'})
     createdBy: string;
 
