@@ -57,4 +57,8 @@ export class UserManagementService {
         return this.userManagementRepo.updateRolePermissions(body);
     }
 
+    public async addRoles(body: UpdateRolePermissionDto): Promise<any> {
+        return this.userManagementRepo.addRole(body);
+    }
+
 }

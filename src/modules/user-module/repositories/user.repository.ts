@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
 import { UserEntity } from "../entities/user.entity";
 import { UserSignUpInterface } from "../interface/user-signup.interface";
@@ -32,6 +32,8 @@ export class UserAuthRepository {
      */
     public async saveNewUser(user: UserSignUpInterface): Promise<UserEntity | null> {
         try {
+            const getUser = await this.getUserByEmail(user.email);
+            if(getUser) throw new ConflictException("Email already exists");
             const userObj = new UserEntity();
             userObj.userId = user.userId;
             userObj.email = user.email;

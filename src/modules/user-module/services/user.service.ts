@@ -100,7 +100,7 @@ export class UserAuthService {
     public async loginUser(body: UserLoginDto): Promise<UserInterface> {
         try {
             const user = await this.userAuthRepository.getUserByEmail(body.email);
-            if (!user) {
+            if (!user || user.isDeleted) {
                 throw new BadRequestException(USER_NOT_FOUND_MESSAGE);
             }
             this.utility.validateUserObject(user);
@@ -153,8 +153,6 @@ export class UserAuthService {
             if (ttl > 0) {
                 const res = await this.cacheManager.set(`blacklist:${token}`, true, ttl * 1000, undefined);
                 console.log(`res in setting cache`, res);
-                const ttlVal = await this.cacheManager.ttl(`blacklist:${token}`, undefined);
-                console.log(`ttl in setting cache`, ttlVal);
             }
             return true;
         } catch (error) {
