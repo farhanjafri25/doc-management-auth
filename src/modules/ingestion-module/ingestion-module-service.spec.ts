@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Queue } from 'bullmq';
 import { NotFoundException } from '@nestjs/common';
-import { getQueueToken } from '@nestjs/bull'; // Import getQueueToken
 import { IngestionService } from './services/ingestion.service';
 import { IngestionRepository } from './repositories/ingestion.repository';
 import { IngestionEntity } from './entities/ingestion.entity';
 import { IngestionStatus } from './enums/ingestion-status.enum';
+import { getQueueToken } from '@nestjs/bullmq';
 
 describe('IngestionService', () => {
     let ingestionService: IngestionService;

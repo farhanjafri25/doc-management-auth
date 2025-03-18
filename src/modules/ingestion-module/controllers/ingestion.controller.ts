@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UseInterceptors } from "@nestjs/common";
 import { IngestionService } from "../services/ingestion.service";
 import { Roles } from "../../../decorators";
+import { AppInterceptor } from "src/app.interceptor";
 
+@UseInterceptors(AppInterceptor)
 @Controller('/ingestion')
 export class IngestionController {
     constructor(private readonly ingestionSerivce: IngestionService) { }
